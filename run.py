@@ -222,7 +222,29 @@ def cmd_build(date_str, skip_slow=False):
                  rec["title"][:32], rec["source"], rec.get("pub_date", ""))
     out = build_site({date_str: [r["id"] for r in picked]})
     log.info("站点已生成：%s", out)
+    publish_site()
     return picked
+
+
+def publish_site():
+    """把 docs/ 推到 GitHub，触发 Pages 重新发布。
+
+    本机到 github.com 的 Git 协议被拦，故走 api.github.com 的 Git Data API。
+    未配置 GITHUB_TOKEN 时静默跳过，不影响本地构建与微信推送。
+    """
+    if not os.environ.get("GITHUB_TOKEN", "").strip():
+        log.info("未配置 GITHUB_TOKEN，跳过 GitHub 发布")
+        return False
+    try:
+        import push_api
+        push_api.main()
+        log.info("GitHub 已更新：%s", _site_base() or "")
+        return True
+    except SystemExit as exc:
+        log.error("GitHub 发布失败：%s", exc)
+    except Exception as exc:                       # noqa: BLE001
+        log.error("GitHub 发布异常：%s", exc)
+    return False
 
 
 def cmd_rebuild(date_str):

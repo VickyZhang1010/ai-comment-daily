@@ -1,8 +1,8 @@
 site:
   title: "官媒议论文日报"
   subtitle: "每日精选「总—分—总」结构议论文"
-  base_url: "https://comment-daily.app.workbuddy.host"
-  share_code: "3VM73IMFVB"   # 访问码，拼在链接 query 上
+  base_url: "https://vickyzhang1010.github.io/ai-comment-daily"
+  share_code: ""             # GitHub Pages 无需访问码
   recent_days: 10            # 首页展示最近 N 天，更早的进 /archive/
   timezone: "Asia/Shanghai"
 
