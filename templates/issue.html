@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}{{ issue.date_cn }} · {{ site.title }}{% endblock %}
+{% block main %}
+<div class="issue-head">
+  <h1>{{ issue.date_cn }} · 第 {{ "%03d"|format(issue.seq) }} 期</h1>
+  <div class="meta">{{ articles|length }} 篇 · 均为「总—分—总」结构 · {{ issue.weekday }}<a href="{{ up }}" style="margin-left:10px;color:var(--red)">首页</a><a href="{{ up }}archive/" style="margin-left:10px;color:var(--red)">全部期次</a></div>
+</div>
+
+{% for art in articles %}
+<div class="card">
+  <div class="card-top">
+    <span class="src">{{ art.source }}{% if art.channel %} · {{ art.channel }}{% endif %}</span>
+    <span class="score-badge">结构度 {{ art.score }}</span>
+  </div>
+  <h2><a href="{{ up }}a/{{ art.slug }}/">{{ art.title }}</a></h2>
+  {% if art.claim %}
+  <p class="claim">{{ art.claim }}</p>
+  {% endif %}
+  <div class="flow">
+    <span class="node n-open">立论</span>
+    {% for h in art.flow_nodes %}
+    <span class="arrow">→</span>
+    <span class="node n-body">{{ h }}</span>
+    {% else %}
+    <span class="arrow">→</span>
+    <span class="node">逐层论证</span>
+    {% endfor %}
+    <span class="arrow">→</span>
+    <span class="node n-close">收束</span>
+  </div>
+  <div class="tags">
+    {% for t in art.tags %}<span class="tag">{{ t }}</span>{% endfor %}
+    <span class="tag">{{ art.char_count }} 字</span>
+  </div>
+</div>
+{% endfor %}
+
+<div class="pager">
+  {% if issue.prev %}
+  <a href="{{ up }}d/{{ issue.prev.date }}/">← 更早一期 · {{ issue.prev.date_cn }}</a>
+  {% else %}
+  <span class="none">← 已是最早</span>
+  {% endif %}
+  {% if issue.next %}
+  <a href="{{ up }}d/{{ issue.next.date }}/">更新一期 · {{ issue.next.date_cn }} →</a>
+  {% else %}
+  <span class="none">已是最新 →</span>
+  {% endif %}
+</div>
+{% endblock %}

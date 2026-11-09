@@ -1,0 +1,45 @@
+site:
+  title: "官媒议论文日报"
+  subtitle: "每日精选「总—分—总」结构议论文"
+  base_url: "https://comment-daily.app.workbuddy.host"
+  share_code: "3VM73IMFVB"   # 访问码，拼在链接 query 上
+  recent_days: 10            # 首页展示最近 N 天，更早的进 /archive/
+  timezone: "Asia/Shanghai"
+
+collect:
+  timeout: 25
+  retries: 3
+  retry_backoff: 4
+  lookback_days: 1
+  window_days: 3          # 周日/节假日评论版常停更，自动回看最近 3 天
+  user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+
+# 采集源开关与限速（秒）。rate 为同一域名两次请求的最小间隔
+sources:
+  qstheory:    { name: "求是网",       enabled: true,  rate: 5 }
+  cyol:        { name: "中国青年报",   enabled: true,  rate: 4 }
+  legaldaily:  { name: "法治日报",     enabled: true,  rate: 4 }
+  xinhua:      { name: "新华网",       enabled: true,  rate: 5 }
+  gmw:         { name: "光明日报",     enabled: true,  rate: 4 }
+  ce:          { name: "经济日报",     enabled: true,  rate: 4 }
+  banyuetan:   { name: "半月谈",       enabled: true,  rate: 4 }
+  people_daily: { name: "人民日报",    enabled: false, rate: 120 }  # 电子版为 JS 渲染，二期接入
+  people_web:   { name: "人民网",      enabled: true,  rate: 120 }
+
+score:
+  daily_count: 5
+  min_score: 70          # 入选线
+  review_score: 60       # 复核线
+  max_per_source: 2      # 同站点最多入选篇数
+  min_chars: 700
+  max_chars: 3200
+  max_candidates: 60     # 每日送入精判的候选上限
+
+push:
+  channel: wecom
+  at: "09:00"
+  catchup_days: 1        # 连续未开机只补最近一期
+
+paths:
+  db: "data/app.db"
+  site: "docs"        # GitHub Pages 分支发布只认 / 或 /docs

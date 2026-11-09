@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}{{ art.title }} · {{ site.title }}{% endblock %}
+{% block main %}
+<div class="art-head">
+  <h1>{{ art.title }}</h1>
+  <div class="art-meta">
+    {{ art.source }}{% if art.channel %} · {{ art.channel }}{% endif %} ·
+    <a href="{{ art.url }}" target="_blank" rel="noopener">查看原文</a> ·
+    结构度 {{ art.score }} · {{ art.char_count }} 字
+  </div>
+</div>
+
+<div class="flow">
+  <span class="node n-open">开篇立论</span>
+  {% for h in art.flow_nodes %}
+  <span class="arrow">→</span>
+  <span class="node n-body">{{ h }}</span>
+  {% else %}
+  <span class="arrow">→</span>
+  <span class="node">逐层论证</span>
+  {% endfor %}
+  <span class="arrow">→</span>
+  <span class="node n-close">结尾收束</span>
+</div>
+
+{% for b in blocks %}
+<div class="block {{ b.kind }}">
+  {% if b.label %}<span class="blabel">{{ b.label }}</span>{% endif %}
+  <p>{{ b.text }}</p>
+</div>
+{% endfor %}
+
+<div class="art-meta" style="margin-top:30px">
+  原文：<a href="{{ art.url }}" target="_blank" rel="noopener">{{ art.url }}</a>
+</div>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block main %}
+{% if days %}
+{% if days|length > 1 %}
+<nav class="daybar">
+  {% for d in days %}
+  <a href="#d-{{ d.date }}">{{ d.short }}<span class="wd">{{ d.weekday }}</span></a>
+  {% endfor %}
+</nav>
+{% endif %}
+
+{% for d in days %}
+<section class="day-section" id="d-{{ d.date }}">
+  <div class="day-head">
+    <h2>{{ d.date_cn }}<span class="wd">{{ d.weekday }}</span></h2>
+    <a class="m" href="{{ up }}d/{{ d.date }}/">{{ d.n }} 篇 · 看结构 →</a>
+  </div>
+  {% for art in d.cards %}
+  <div class="mini">
+    <div class="m"><span class="src">{{ art.source }}</span>{% if art.channel %}{{ art.channel }} · {% endif %}结构度 {{ art.score }}</div>
+    <h3><a href="{{ up }}a/{{ art.slug }}/">{{ art.title }}</a></h3>
+    {% if art.claim %}<p class="claim">{{ art.claim[:80] }}{% if art.claim|length > 80 %}…{% endif %}</p>{% endif %}
+  </div>
+  {% endfor %}
+</section>
+{% endfor %}
+
+{% if older_count %}
+<div class="more-archive"><a href="{{ up }}archive/">查看更早的 {{ older_count }} 期 →</a></div>
+{% endif %}
+{% else %}
+<div class="empty">还没有内容。运行一次采集后这里会出现每日推荐。</div>
+{% endif %}
+{% endblock %}

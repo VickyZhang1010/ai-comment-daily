@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}全部期次 · {{ site.title }}{% endblock %}
+{% block main %}
+<div class="issue-head">
+  <h1>全部期次</h1>
+  <div class="meta">共 {{ days|length }} 期 · <a href="{{ up }}" style="color:var(--red)">返回首页</a></div>
+</div>
+{% if days %}
+<ul class="issue-list">
+  {% for d in days %}
+  <li>
+    <a href="{{ up }}d/{{ d.date }}/">
+      <span class="issue-date">{{ d.date_cn }}<span class="wd">{{ d.weekday }}</span></span>
+      <span class="issue-meta">{{ d.n }} 篇</span>
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<div class="empty">还没有内容。</div>
+{% endif %}
+{% endblock %}

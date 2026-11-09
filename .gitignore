@@ -1,0 +1,24 @@
+# 密钥与本地环境：绝对不能进仓库
+.env
+*.env
+.venv/
+venv/
+
+# 运行时产物
+logs/
+*.log
+__pycache__/
+*.py[cod]
+
+# 数据库含抓取全文，不公开
+data/*.db
+data/*.db-journal
+data/*.sqlite*
+
+# 编辑器与系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# 注意：docs/ 必须提交，GitHub Pages 靠它发布
